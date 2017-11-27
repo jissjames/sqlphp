@@ -39,7 +39,7 @@
             $conn->close();
             ?>
             
-            <a href="view_data.php">BACK</a>
+            <a href="index.php">BACK</a>
         </body>
     </head>
 </html>
