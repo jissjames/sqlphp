@@ -1,6 +1,8 @@
+<!DOCTYPE html>
 <html>
     <head>
-        <title>Saved Data</title>
+        <title>View Data</title>
+        
         <body>
             
             <?php
@@ -16,32 +18,28 @@
             $password = "21fcccdd";
             $dbname = "heroku_ea219b2aed88b3d";
             
-            //Retrieving values POSTed
-            $user_name = $_POST["user_name"];
-            $address = $_POST["address"];
-            $phone = $_POST["phone"];
-            
-            // Create connection - using the credentials above
+            // Create connection
             $conn = new mysqli($servername, $username, $password, $dbname);
             // Check connection
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
             } 
             
-            //SQL Query using the fetched values
-            $sql = "INSERT INTO tblUsers (UserNAME, UserADDRESS, UserPHONE)
-            VALUES ('$user_name', '$address', '$phone')";
+            $sql = "SELECT UserID, UserNAME, UserADDRESS, UserPHONE FROM tblUsers";
+            $result = $conn->query($sql);
             
-            if ($conn->query($sql) === TRUE) {
-                echo "New record created successfully";
+            if ($result->num_rows > 0) {
+                // output data of each row
+                while($row = $result->fetch_assoc()) {
+                    echo "ID: " . $row["UserID"]. " - Name: " . $row["UserNAME"]. " " . " - Address: " . $row["UserADDRESS"]. " " . " - Phone: " . $row["UserPHONE"]. "<br>";
+                }
             } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
+                echo "0 results";
             }
-            
             $conn->close();
             ?>
-
-            <a href="view_data.php">VIEW DATA</a>
+            
+            <a href="view_data.php">BACK</a>
         </body>
     </head>
 </html>
